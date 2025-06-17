@@ -87,8 +87,8 @@ resource "aws_instance" "server" {
   }
 
   provisioner "file" {
-    source = "server.py"
-    destination = "/home/ubuntu/server.py"
+    source = "app.py"
+    destination = "/home/ubuntu/app.py"
   }
 
   provisioner "remote-exec" {
@@ -96,7 +96,7 @@ resource "aws_instance" "server" {
     "sudo apt-get update -y",
     "sudo apt-get install -y python3",
     "cd /home/ubuntu",
-    "sudo nohup python3 server.py > server.log 2>&1 &"
+    "sudo nohup python3 app.py > app.log 2>&1 &"
     ]
   }
 }
