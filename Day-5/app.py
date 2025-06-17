@@ -1,10 +1,21 @@
-from flask import Flask
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-app = Flask(__name__)
+class SimpleHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/":
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write(b"Hello, Chris Paul Matthew!")
+        else:
+            self.send_response(404)
+            self.end_headers()
 
-@app.route("/")
-def hello():
-    return "Hello, Terraform!"
+def run(server_class=HTTPServer, handler_class=SimpleHandler):
+    server_address = ('0.0.0.0', 80)
+    httpd = server_class(server_address, handler_class)
+    print("Starting HTTP server on port 80...")
+    httpd.serve_forever()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    run()
